@@ -10,7 +10,6 @@ gem 'bson_ext'
 gem 'mongoid', :git => 'git://github.com/mongoid/mongoid.git'
 
 gem 'capistrano'
-gem 'haml'
 
 gem 'dynamic_form', :git => 'git://github.com/rails/dynamic_form.git'
 gem 'inherited_resources'
