@@ -29,4 +29,7 @@ group :development do
   gem "shoulda"
   gem "mongoid-rspec", :git => "http://github.com/evansagge/mongoid-rspec.git"
   gem "webrat"
+
+  # WEBrick is too slow
+  gem "thin"
 end
