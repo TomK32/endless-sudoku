@@ -2,29 +2,31 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.1'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'sqlite3-ruby', :require => 'sqlite3'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
-# To use debugger
-# gem 'ruby-debug'
+gem 'mongo'
+gem 'bson_ext'
+gem 'mongoid', :git => 'git://github.com/mongoid/mongoid.git'
 
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
+gem 'capistrano'
+gem 'haml'
 
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
+gem 'dynamic_form', :git => 'git://github.com/rails/dynamic_form.git'
+gem 'inherited_resources'
+gem 'exception_notification', :git => 'git://github.com/rails/exception_notification.git', :require => 'exception_notifier'
+
+group :development do
+  gem "autotest"
+  gem "cucumber"
+  gem "cucumber-rails"
+  gem "rspec"
+  gem "rspec-core"
+  gem "rspec-rails"
+  gem "rspec-mocks"
+  gem "rspec-expectations"
+  gem "factory_girl_rails"
+  gem "shoulda"
+  gem "mongoid-rspec", :git => "http://github.com/evansagge/mongoid-rspec.git"
+  gem "webrat"
+end

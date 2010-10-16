@@ -1,0 +1,18 @@
+defaults: &defaults
+  host: localhost
+
+development:
+  <<: *defaults
+  database: wieners
+  host: flame.mongohq.com
+  port: 27067
+  username: wieners
+  password: MetaLab2010
+
+test:
+  <<: *defaults
+  database: wieners_test
+
+# set these environment variables on your prod server
+production:
+  <<: *development
