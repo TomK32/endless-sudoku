@@ -1,4 +1,5 @@
-Board = function() {
+Board = function(selector) {
+  this.selector = selector;
   this.sudokus = [];
   this.paper = null;
   this.sudokuSize = 200;
@@ -17,7 +18,7 @@ Board.prototype.populate = function(sudokus) {
 }
 
 Board.prototype.createPaper = function() {
-  this.paper = Raphael(0,0, window.innerWidth, window.innerHeight);
+  this.paper = Raphael(this.selector, window.innerWidth, window.innerHeight - $('#' + this.selector).offset().top);
   this.paper.rect(0,0, window.innerWidth, window.innerHeight, 5).attr({fill: "90-#df0:10-#ada-#0fa", 'fill-opacity': 0.6});
   
   this.paper.customAttributes.data = function (data) {

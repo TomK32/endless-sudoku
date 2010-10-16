@@ -1,0 +1,31 @@
+html, body, div, h1 {
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+}
+
+a {
+  color: #55F;
+  text-decoration: none;
+  text-shadow: 2px 2px #DDD;
+}
+#header {
+  height: 40px;
+}
+#header h1 {
+  color: #151;
+  padding: 0 10px;
+  line-height: 40px;
+  text-shadow: 2px 2px #DDD;
+}
+#about {
+  color: #111;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+#board {
+  
+}

@@ -13,7 +13,7 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 end
 
@@ -22,7 +22,7 @@ after "deploy:update_code", "bundle:install"
 
 namespace :bundle do
   task :install do
-    run "cd #{release_path}; bundle"
+#    run "cd #{release_path}; #{try_sudo} bundle"
   end
 end
 

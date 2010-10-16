@@ -1,0 +1,15 @@
+== Backend
+* sudoku generator for SolvedSudokus
+* Also store squares in SolvedSudoku to find the adjoining sudoku faster
+
+== App
+* Sudoku: Export missing numbers as 0
+* devise
+
+== Frontend
+* number selector (dial, esc-key to close)
+* send number, col, row, sudoku_id to server
+* extend board by another sudoku (add a rect with hover question)
+* show users stats
+* show user signup form (just email address and name)
+* Drag the board
