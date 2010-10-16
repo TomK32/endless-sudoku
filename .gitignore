@@ -1,0 +1,8 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
+log/development.log
+log/production.log
+log/server.log
+log/test.log
