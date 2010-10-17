@@ -12,27 +12,74 @@ class Sudoku
     errors.add('It must have 9 rows') unless self.rows.size.should == 9
     errors.add('It must have 9 fields') unless self.parts.size.should == 9
   end
-  
-  def self.generate(rows = 3)
-    self.new(:parts => self.random_diagonal(rows))
+
+  def size
+    @size ||= self.parts.size
   end
+
+  def generate_rows_from_parts
+    (size**2).times do |row|
+      self.rows[row] ||= []
+      (size**2).times do |col|
+        self.rows[row][col] = if !self.parts[row/size][col/size].blank?
+           self.parts[row/size][col/size][col%size + (row%size*size)].to_i
+        else
+          nil
+        end
+      end
+    end
+  end
+  def generate_parts_from_rows
+    size.times do |row|
+      size.times do |col|
+        self.parts[row][col] =
+          (0...size**2).to_a.collect do |col2|
+
+            self.rows[(col*size) + (col2 / size)][(row*size)+col2%size]
+          end
+      end
+
+    end
+  end
+
+  def self.generate(rows = 3)
+    sudoku = self.new(:parts => self.random_diagonal(rows))
+    sudoku.generate_rows_from_parts
+    sudoku.rows = SudokuSolver::Solver.solve(sudoku.rows)
+    sudoku.generate_parts_from_rows
+    sudoku
+  end
+
   def self.random_diagonal(rows = 3)
     parts = [];
     rows.times do |row|
-      rows.times do |col|
-        parts[row] ||= [];
-        # We fill the diagonal
-        parts[row][col] = self.random_part(rows) if row == col
-      end
+      parts[row] ||= row.times.collect{[]};
+      # We fill the diagonal
+      parts[row][row] = self.random_part(rows)
     end
     parts
   end
-  
+
   # Note that for 4 and higher (that's 0..f) we will actually output 1..g
   def self.random_part(rows = 3)
     numbers = Range.new(1, rows**2).to_a
     Range.new(1, rows**2).to_a.
-      map{|i| numbers.slice!(rand(numbers.size)).to_s([10,rows**2+1].max) }.
-      compact.join('').to_s
+      map{|i| numbers.slice!(rand(numbers.size)).to_s([10,rows**2+1].max) }.compact.join('')
+  end
+
+  def rows_to_s
+    self.rows.collect{|r|r.join(' ')}.join("\n")
+  end
+  def parts_to_s
+    (0...(size**2)).to_a.collect do |row|
+      s = (0...(size**2)).to_a.collect do |col|
+        if !self.parts[row/size][col/size].blank?
+          self.parts[row/size][col/size][col%size + (row%size*size)]
+        else
+          '-'
+        end
+      end.join(' ')
+      s
+    end.join("\n")
   end
 end
