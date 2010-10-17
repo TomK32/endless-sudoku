@@ -11,6 +11,6 @@ class Board
   after_create :assign_sudokus
 
   def assign_sudokus
-    self.sudokus = []
+    self.sudokus = 5.times{ self.sudokus.create_random }
   end
 end
