@@ -14,7 +14,7 @@ class Sudoku
   end
 
   def size
-    @size ||= self.parts.size
+    @size ||= (parts.empty? ? rows : parts).size
   end
 
   def generate_rows_from_parts
@@ -46,6 +46,7 @@ class Sudoku
     sudoku = self.new(:parts => self.random_diagonal(rows))
     sudoku.generate_rows_from_parts
     sudoku.rows = SudokuSolver::Solver.solve(sudoku.rows)
+    sudoku.solved = true
     sudoku.generate_parts_from_rows
     sudoku
   end
@@ -68,7 +69,7 @@ class Sudoku
   end
 
   def rows_to_s
-    self.rows.collect{|r|r.join(' ')}.join("\n")
+    self.rows.collect{|r|r.collect{|n| n || ' ' }.join(' ')}.join("\n")
   end
   def parts_to_s
     (0...(size**2)).to_a.collect do |row|

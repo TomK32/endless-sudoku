@@ -7,6 +7,7 @@ describe Sudoku do
   it ".generate" do
     sudoku = Sudoku.generate
     sudoku.should be_valid
+    sudoku.should be_solved
 
     (sudoku.parts.collect{|p| p.size }.sum).should ==(9)
     sudoku.rows.size.should ==(9)
@@ -45,6 +46,7 @@ describe Sudoku do
 
   it "#generate_rows_from_parts" do
     sudoku = Sudoku.generate(2)
+    sudoku.should be_solved
     sudoku.rows[0][0].should == sudoku.parts[0][0][0]
     sudoku.rows[1][0].should == sudoku.parts[0][0][2]
     sudoku.rows[3][2].should == sudoku.parts[1][1][2]

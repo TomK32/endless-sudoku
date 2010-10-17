@@ -16,14 +16,15 @@ describe BoardSudoku do
 
   it "should create sparse rows" do
     board_sudoku = BoardSudoku.create(:board => @board, :solved_sudoku => @solved_sudoku)
-    sudoku.should be valid
+    sudoku.should be_valid
+    sudoku.should_not be_solved
     sudoku.rows.collect{|r| r.match('0') }.compact.should_not be_empty
     sudoku.parts.collect{|r| r.match('0') }.compact.should_not be_empty
   end
-  
+
   it "#create_random" do
     sudoku = board.sudokus.create_random
-    sudoku.should be valid
+    sudoku.should be_valid
     sudoku.should_not be_solved
     sudoku.parent.should_not be_nil
     sudoku.parent.should be_solved
