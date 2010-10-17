@@ -68,8 +68,11 @@ class Sudoku
       map{|i| numbers.slice!(rand(numbers.size)).to_s([10,rows**2+1].max) }.compact.join('')
   end
 
+  def rows_as_strings(separator = '', filler = ' ')
+    self.rows.collect{|r|r.collect{|n| n || ' ' }.join(separator)}
+  end
   def rows_to_s
-    self.rows.collect{|r|r.collect{|n| n || ' ' }.join(' ')}.join("\n")
+    self.rows_as_strings(' ').join("\n")
   end
   def parts_to_s
     (0...(size**2)).to_a.collect do |row|

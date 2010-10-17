@@ -1,0 +1,10 @@
+<%= form_for resource||Board.new, :url => boards_path do |form| %>
+  <p>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </p>
+  
+  <p class="submit">
+    <%= form.submit 'Give me my board', :name => nil %>
+  </p>
+<% end %>

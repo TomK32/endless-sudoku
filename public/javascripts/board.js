@@ -11,11 +11,29 @@ Board = function(data, selector) {
   this.boardHeight = window.innerHeight - $('#' + this.selector).offset().top;
   this.numberSelector = [];
   this.statistics = [];
+  $('#' + this.selector).data({board: this});
 }
 
+Board.getBoard = function(id) {
+  return ($('#board_' + id));
+}
+
+Board.prototype.loadData = function() {
+  var request = $.getJSON('', {format: 'json', id: this.id, async: false},
+    function(data, status, request) {
+      if(status == "success") {
+        $('#error').hide();
+      }
+      var board = Board.getBoard(data.id).data('board');
+      board.name = data.name
+      board.data = data;
+      board.populate(data.sudokus);
+      board.draw();
+    });
+}
 Board.prototype.populate = function(sudokus) {
   for(i = 0; i < sudokus.length; i++) {
-    s = new Sudoku(sudokus[i]);
+    var s = new Sudoku(sudokus[i]);
     s.board = this;
     this.sudokus.push(s);
   }
@@ -124,19 +142,19 @@ Sudoku.prototype.addEmptyField = function(col, row) {
     this.drawField(col, row).click(function(event){ this.attrs.sudoku.selectNumber(this, event); })
   );
 }
-Sudoku.prototype.addSolvedField = function(col, row) {
+Sudoku.prototype.addSolvedField = function(col, row, number) {
   this.figures.push(this.drawField(col, row).attr({'fill-opacity': 0.1}));
-  this.figures.push(this.board.paper.text(this.xPos(col + 1), this.yPos(row + 1), numbers[col]));
+  this.figures.push(this.board.paper.text(this.xPos(col + 1), this.yPos(row + 1), number));
 }
 Sudoku.prototype.draw = function() {
   $(this.figures).map(function(i, e){ e.remove() });
   for(row=0; row < this.rows.length; row++) {
-    numbers = this.rows[row].toString().split('');
+    var numbers = this.rows[row].toString().split('');
     for(col=0; col < numbers.length; col++) {
       if(numbers[col] == 0) {
         this.addEmptyField(col, row);
       } else {
-        this.addSolvedField(col, row);
+        this.addSolvedField(col, row, numbers[col]);
       }
     }
   }

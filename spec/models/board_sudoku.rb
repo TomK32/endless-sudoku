@@ -2,12 +2,15 @@ require 'spec_helper'
 
 describe BoardSudoku do
   it { should have_field(:solved).of_type(Boolean) }
+  it { should have_field(:lng).of_type(Integer) }
+  it { should have_field(:lat).of_type(Integer) }
 
   it { should be_referenced_in :board }
   it { should be_referenced_in :parent }
 
 
-  it { should validate_presence_of :solved_sudoku_id }
+  it { should validate_presence_of :parent_id }
+  it { should validate_presence_of :board_id }
 
   before do
     @solved_sudoku = Sudoku.create_random

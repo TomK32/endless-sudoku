@@ -5,10 +5,17 @@ class BoardSudoku < Sudoku
   referenced_in :board
   referenced_in :parent, :class_name => 'Sudoku'
 
-  def self.create_random
-    sudoku = self.new
+  validates_presence_of :board_id
+  validates_presence_of :parent_id
+
+  index :board_id
+  index :_type
+
+  def self.create_random(attributes = {})
+    sudoku = self.new(attributes)
     sudoku.parent = Sudoku.generate
     sudoku.shoot_it!
+    sudoku.save
     sudoku
   end
 
@@ -18,5 +25,10 @@ class BoardSudoku < Sudoku
       rows[rand(size)][rand(size)] = nil
     end
     self.solved = false
+  end
+
+  def as_json(options = {})
+    attributes.reject{|k,v| %w(parts rows).include?(k)}.
+      merge({:rows => self.rows_as_strings}).as_json(options)
   end
 end

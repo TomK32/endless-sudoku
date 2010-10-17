@@ -1,11 +1,7 @@
 class BoardsController < ApplicationController
   inherit_resources
-  actions :show, :index
-
-  def show!
-    @sudokus = resource.sudokus.all
-    show!
-  end
+  actions :show, :index, :new, :create
+  respond_to :json, :html
 
   protected
 end
