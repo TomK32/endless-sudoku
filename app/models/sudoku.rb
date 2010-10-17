@@ -8,6 +8,8 @@ class Sudoku
   field :parts, :type => Array, :default => []
   field :solved, :type => Boolean, :default => false
 
+  before_save :convert_rows_to_strings
+
   def validate
     errors.add('It must have 9 rows') unless self.rows.size.should == 9
     errors.add('It must have 9 fields') unless self.parts.size.should == 9
@@ -17,12 +19,16 @@ class Sudoku
     @size ||= [(parts||[]).size, Math.sqrt(rows.size||1)].max
   end
 
+  def convert_rows_to_strings
+    self.rows = rows.collect{|r| r.is_a?(String) ? r : r.join('') }
+  end
+
   def generate_rows_from_parts
     (size**2).times do |row|
       self.rows[row] ||= []
       (size**2).times do |col|
         self.rows[row][col] = if !self.parts[row/size][col/size].blank?
-           self.parts[row/size][col/size][col%size + (row%size*size)]
+           self.parts[row/size][col/size][col%size + (row%size*size)].to_i
         else
           nil
         end
@@ -57,7 +63,7 @@ class Sudoku
     rows.times do |row|
       parts[row] ||= rows.times.collect{[]};
       # We fill the diagonal
-      parts[row][row] = self.random_part(rows) if parts[row][row].nil? && parts[row][row].empty?
+      parts[row][row] = self.random_part(rows) if parts[row][row].nil? || parts[row][row].empty?
     end
     parts
   end
@@ -65,12 +71,12 @@ class Sudoku
   # Note that for 4 and higher (that's 0..f) we will actually output 1..g
   def self.random_part(rows = 3)
     numbers = Range.new(1, rows**2).to_a
-    Range.new(1, rows**2).to_a.
-      map{|i| numbers.slice!(rand(numbers.size)).to_s([10,rows**2+1].max) }.compact.join('')
+    (rows**2).times.
+      collect{|i| numbers.slice!(rand(numbers.size)).to_s([10,rows**2+1].max) }.compact.join('')
   end
 
   def rows_as_strings(separator = '', filler = ' ')
-    self.rows.collect{|r|r.collect{|n| n.blank? ? ' ' : n}.join(separator)}
+    self.rows.join(separator)
   end
   def rows_to_s
     self.rows_as_strings(' ').join("\n")

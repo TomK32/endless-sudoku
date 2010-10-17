@@ -38,8 +38,8 @@ describe Sudoku do
   it ".random_diagonal" do
     parts = Sudoku.random_diagonal(2)
     parts.size.should == 2
-    parts[0].compact.size.should == 1
-    parts[1].compact.size.should == 2
+    parts[0].size.should == 2
+    parts[1].size.should == 2
     parts[0][0].should_not be_nil
     parts[1][1].should_not be_nil
   end

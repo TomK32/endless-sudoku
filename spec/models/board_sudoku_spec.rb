@@ -13,7 +13,7 @@ describe BoardSudoku do
   it { should validate_presence_of :board_id }
 
   before do
-    @solved_sudoku = Sudoku.create_random
+    @solved_sudoku = Sudoku.generate
     @board = Board.create(:name => 'test')
   end
 
@@ -25,8 +25,8 @@ describe BoardSudoku do
     sudoku.parts.collect{|r| r.match('0') }.compact.should_not be_empty
   end
 
-  it "#create_random" do
-    sudoku = board.sudokus.create_random
+  it "#generate" do
+    sudoku = board.sudokus.generate
     sudoku.should be_valid
     sudoku.should_not be_solved
     sudoku.parent.should_not be_nil

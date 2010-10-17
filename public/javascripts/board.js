@@ -19,17 +19,14 @@ Board.getBoard = function(id) {
 }
 
 Board.prototype.loadData = function() {
-  var request = $.getJSON('', {format: 'json', id: this.id, async: false},
-    function(data, status, request) {
-      if(status == "success") {
-        $('#error').hide();
-      }
-      var board = Board.getBoard(data.id).data('board');
-      board.name = data.name
-      board.data = data;
-      board.populate(data.sudokus);
-      board.draw();
-    });
+  var request = $.ajax({url: '', async: false, data: {format: 'json', id: this.id}});
+  if(request.status == 200) {
+    $('#error').hide();
+    this.data = $.parseJSON(request.responseText);
+    this.name = this.data.name
+    this.populate(this.data.sudokus);
+    this.draw();
+  }
 }
 Board.prototype.populate = function(sudokus) {
   for(var i = 0; i < sudokus.length; i++) {
@@ -77,11 +74,13 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
     posX = x + (((i-1) % 3) * this.fieldSize);
     posY = y + (Math.floor((i-1) / 3) * this.fieldSize);
     this.numberSelector.push(this.paper.text(posX + this.fieldSize / 2, posY + this.fieldSize / 2, i));
+    var data = $.extend(true, {}, element.attrs.data);
+    data.number = i;
     this.numberSelector.push(
       this.paper.rect(posX, posY, this.fieldSize, this.fieldSize).
-        attr({fill: '#fff', 'fill-opacity': 0.0, data: $.merge(element.attrs.data, {number: i}), sudoku: element.attrs.sudoku}).
+        attr({fill: '#fff', 'fill-opacity': 0.0, data: data, sudoku: element.attrs.sudoku}).
         click(function(event) {
-          Board.postNumber(this.attrs.data, i, this.attrs.sudoku);
+          Board.postNumber(this, this.attrs.sudoku);
         })
     );
   }
@@ -89,26 +88,37 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
 
 
 // Send to server and ask if it's correct
-Board.postNumber = function(data, number, sudoku) {
-  console.log(sudoku.board.id);
-  data.number = number;
+Board.postNumber = function(element, sudoku) {
+  data = element.attrs.data;
   data._method = 'put';
-  $.post('/boards/' + sudoku.board.id + '/sudokus/' + sudoku.id + '.json', data,
-    function(data) {
-      board.removeNumberSelector();
-  });
+  var url = '/boards/' + sudoku.board.id + '/sudokus/' + sudoku.id + '.json';
+  var request = $.ajax({type: 'post', url: url, async: false, data: data});
+  data = $.parseJSON(request.responseText);
+  if(data.error) {
+    element.attr({fill: '#FF0000', 'fill-opacity' : 0.5})
+  } else {
+    sudoku.updateData(data);
+    sudoku.draw();
+    sudoku.board.remove
+
+
+    erSelector();
+  }
 }
 
 Sudoku = function(data) {
-  this.id = data.id;
-  this.lat = data.lat;
-  this.lng = data.lng;
-  this.rows = data.rows;
+  this.updateData(data);
 
   this.figures = []; // anything drawn that relates to this suduoku
   this.board = null;
 }
 
+Sudoku.prototype.updateData = function(data) {
+  this.id = data.id;
+  this.lat = data.lat;
+  this.lng = data.lng;
+  this.rows = data.rows;
+}
 
 Sudoku.prototype.selectNumber = function(element, event) {
   this.board.drawNumberSelector(event.offsetX, event.offsetY, element);
