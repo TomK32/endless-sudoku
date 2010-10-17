@@ -1,4 +1,4 @@
-html, body, div, h1 {
+html, body, div, h1, p {
   margin: 0;
   padding: 0;
 }
@@ -21,10 +21,13 @@ a {
   text-shadow: 2px 2px #DDD;
 }
 #about {
+  padding: 0;
+  font-size: 95%;
+  text-align: right;
   color: #111;
   position: absolute;
   right: 10px;
-  top: 0;
+  top: 5px;
 }
 #board {
   

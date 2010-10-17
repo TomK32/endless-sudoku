@@ -8,6 +8,8 @@ describe Board do
   it "should add sudokus to a new board" do
     Board.new.sudokus.should be_empty
     
-    Board.create!(:name => 'test').sudokus.count.should ==(5)
+    board = Board.create!(:name => 'test')
+    board.sudokus.count.should ==(5)
+    board.sudokus.map{|s| s.should_not be_solved }
   end
 end
