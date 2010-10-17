@@ -29,3 +29,10 @@ a {
 #board {
   
 }
+
+#error {
+  display: none;
+  border: 2px solid red;
+  background-color: #FFDDDD;
+  color: black;
+}
