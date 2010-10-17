@@ -24,7 +24,7 @@ RSpec.configure do |config|
 
   config.mock_with :rspec
   config.after(:all) do
-    Mongoid.master.collections.each(&:drop)
+  #  Mongoid.master.collections.each(&:drop)
   end
 
 end
