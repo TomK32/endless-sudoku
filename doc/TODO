@@ -5,7 +5,6 @@
 == App
 * Sudoku: Export missing numbers as 0
 * devise
-* generate random BoardSudokus
 
 
 == Frontend
