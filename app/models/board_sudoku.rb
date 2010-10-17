@@ -11,24 +11,27 @@ class BoardSudoku < Sudoku
   index :board_id
   index :_type
 
-  def self.create_random(attributes = {})
+  def self.build_random(attributes = {})
     sudoku = self.new(attributes)
-    sudoku.parent = Sudoku.generate
+    sudoku.parent = Sudoku.generate(3, sudoku.parts)
     sudoku.shoot_it!
-    sudoku.save
     sudoku
   end
 
-  def shoot_it!()
+  def shoot_it!
     self.rows = parent.rows
     start_holes.times do |i|
-      rows[rand(size)][rand(size)] = nil
+      rows[rand(size**2) ][rand(size**2)] = ''
     end
     self.solved = false
   end
 
+  def correct?(row, col, number)
+    parent.rows[row.to_i][col.to_i].to_s == number.to_s
+  end
+
   def as_json(options = {})
-    attributes.reject{|k,v| %w(parts rows).include?(k)}.
-      merge({:rows => self.rows_as_strings}).as_json(options)
+    attributes.reject{|k,v| %w(parts rows _id).include?(k)}.
+      merge({:rows => self.rows_as_strings, :id => self.id}).as_json(options)
   end
 end

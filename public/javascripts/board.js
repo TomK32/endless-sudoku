@@ -32,7 +32,7 @@ Board.prototype.loadData = function() {
     });
 }
 Board.prototype.populate = function(sudokus) {
-  for(i = 0; i < sudokus.length; i++) {
+  for(var i = 0; i < sudokus.length; i++) {
     var s = new Sudoku(sudokus[i]);
     s.board = this;
     this.sudokus.push(s);
@@ -73,15 +73,15 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
       click(function(event) { this.attrs.board.removeNumberSelector(); }));
 
   this.numberSelector.push(this.paper.rect(x-5,y-5,this.sudokuSize/3+10, (this.sudokuSize/3)+10).attr({fill: '#FFF'}));
-  for(i=1; i <= this.fields; i++) {
+  for(var i=1; i <= this.fields; i++) {
     posX = x + (((i-1) % 3) * this.fieldSize);
     posY = y + (Math.floor((i-1) / 3) * this.fieldSize);
     this.numberSelector.push(this.paper.text(posX + this.fieldSize / 2, posY + this.fieldSize / 2, i));
     this.numberSelector.push(
       this.paper.rect(posX, posY, this.fieldSize, this.fieldSize).
-        attr({fill: '#fff', 'fill-opacity': 0.0, data: $.merge(element.attrs.data, {number: i})}).
+        attr({fill: '#fff', 'fill-opacity': 0.0, data: $.merge(element.attrs.data, {number: i}), sudoku: element.attrs.sudoku}).
         click(function(event) {
-          Board.postNumber(this.attrs.data, i, element.attrs.sudouku.board);
+          Board.postNumber(this.attrs.data, i, this.attrs.sudoku);
         })
     );
   }
@@ -89,10 +89,11 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
 
 
 // Send to server and ask if it's correct
-Board.postNumber = function(data, number, board) {
+Board.postNumber = function(data, number, sudoku) {
+  console.log(sudoku.board.id);
   data.number = number;
   data._method = 'put';
-  $.post('/boards/' + board.id + 'sudokus/' + data.sudoku_id + '.json', data,
+  $.post('/boards/' + sudoku.board.id + '/sudokus/' + sudoku.id + '.json', data,
     function(data) {
       board.removeNumberSelector();
   });
@@ -148,9 +149,9 @@ Sudoku.prototype.addSolvedField = function(col, row, number) {
 }
 Sudoku.prototype.draw = function() {
   $(this.figures).map(function(i, e){ e.remove() });
-  for(row=0; row < this.rows.length; row++) {
+  for(var row=0; row < this.rows.length; row++) {
     var numbers = this.rows[row].toString().split('');
-    for(col=0; col < numbers.length; col++) {
+    for(var col=0; col < numbers.length; col++) {
       if(numbers[col] == 0) {
         this.addEmptyField(col, row);
       } else {

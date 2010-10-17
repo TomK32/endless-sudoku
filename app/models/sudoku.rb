@@ -14,7 +14,7 @@ class Sudoku
   end
 
   def size
-    @size ||= (parts.empty? ? rows : parts).size
+    @size ||= [(parts||[]).size, Math.sqrt(rows.size||1)].max
   end
 
   def generate_rows_from_parts
@@ -22,7 +22,7 @@ class Sudoku
       self.rows[row] ||= []
       (size**2).times do |col|
         self.rows[row][col] = if !self.parts[row/size][col/size].blank?
-           self.parts[row/size][col/size][col%size + (row%size*size)].to_i
+           self.parts[row/size][col/size][col%size + (row%size*size)]
         else
           nil
         end
@@ -42,21 +42,22 @@ class Sudoku
     end
   end
 
-  def self.generate(rows = 3)
-    sudoku = self.new(:parts => self.random_diagonal(rows))
+  def self.generate(rows = 3, parts = [])
+    sudoku = self.new(:parts => self.random_diagonal(rows, parts))
     sudoku.generate_rows_from_parts
     sudoku.rows = SudokuSolver::Solver.solve(sudoku.rows)
     sudoku.solved = true
     sudoku.generate_parts_from_rows
+    sudoku.save
     sudoku
   end
 
-  def self.random_diagonal(rows = 3)
-    parts = [];
+  def self.random_diagonal(rows = 3, parts = [])
+    parts ||= []
     rows.times do |row|
-      parts[row] ||= row.times.collect{[]};
+      parts[row] ||= rows.times.collect{[]};
       # We fill the diagonal
-      parts[row][row] = self.random_part(rows)
+      parts[row][row] = self.random_part(rows) if parts[row][row].nil? && parts[row][row].empty?
     end
     parts
   end
@@ -69,7 +70,7 @@ class Sudoku
   end
 
   def rows_as_strings(separator = '', filler = ' ')
-    self.rows.collect{|r|r.collect{|n| n || ' ' }.join(separator)}
+    self.rows.collect{|r|r.collect{|n| n.blank? ? ' ' : n}.join(separator)}
   end
   def rows_to_s
     self.rows_as_strings(' ').join("\n")

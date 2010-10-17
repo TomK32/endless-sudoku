@@ -1,28 +1,14 @@
 class SudokusController < ApplicationController
-  def show
-    # Find a board, return it
-    # Dummy until we have a model in place
-    sudoku =  {
-      :fields => [
-        123456789,
-        123456789,
-        123456789,
-        123456789,
-        123456789,
-        123456789,
-        123456789,
-        123456789,
-        123456789,
-        123456789,
-      ]
-    }
-
-    respond_to do |wants|
-      wants.json { render :json => sudoku }
-    end
-  end
+  inherit_resources
+  defaults :resource_class => BoardSudoku
+  belongs_to :board
+  respond_to :json
   
   def update
-    
+    if resource.correct?(params[:row], params[:col], params[:number])
+      resource.rows[params[:row]][params[:col]] = params[:number]
+      resource.save!
+    end
   end
+  protected
 end

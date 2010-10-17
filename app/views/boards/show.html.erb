@@ -3,7 +3,7 @@
 <% content_for :footer do %>
 <script type="text/javascript">
   $(document).ready(function(){
-    b = new Board("<%= resource.id %>", 'board_<%= resource.id %>');
+    b = new Board({id: "<%= resource.id %>"}, 'board_<%= resource.id %>');
     b.loadData();
   });
 
