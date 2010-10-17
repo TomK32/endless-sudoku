@@ -1,11 +1,8 @@
 == Backend
-* sudoku generator for Sudokus (solved ones)
-* Also store squares in Sudoku to find the adjoining sudoku faster
 
 == App
 * Sudoku: Export missing numbers as 0
 * devise
-
 
 == Frontend
 * process result of postNumber (redraw sudoku, hide numberDialog)
