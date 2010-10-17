@@ -7,18 +7,18 @@ body {
 }
 
 a {
-  color: #55F;
+  color: #0F4D92;
   text-decoration: none;
-  text-shadow: 2px 2px #DDD;
+  text-shadow: 2px 2px #A3CCFA;
 }
 #header {
   height: 40px;
 }
 #header h1 {
-  color: #151;
+  color: #0F4D92;
   padding: 0 10px;
   line-height: 40px;
-  text-shadow: 2px 2px #DDD;
+  text-shadow: 2px 2px #A3CCFA;
 }
 #about {
   padding: 0;

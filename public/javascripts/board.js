@@ -1,5 +1,6 @@
-Board = function(id, selector) {
-  this.id = id;
+Board = function(data, selector) {
+  this.id = data.id;
+  this.name = data.name
   this.selector = selector;
   this.sudokus = [];
   this.paper = null;
@@ -9,6 +10,7 @@ Board = function(id, selector) {
   this.boardWidth = window.innerWidth;
   this.boardHeight = window.innerHeight - $('#' + this.selector).offset().top;
   this.numberSelector = [];
+  this.statistics = [];
 }
 
 Board.prototype.populate = function(sudokus) {
@@ -21,11 +23,15 @@ Board.prototype.populate = function(sudokus) {
 
 Board.prototype.createPaper = function() {
   this.paper = Raphael(this.selector, this.boardWidth, this.boardHeight);
-  this.paper.rect(0,0, this.boardWidth, this.boardHeight, 5).attr({fill: "90-#df0:10-#ada-#0fa", 'fill-opacity': 0.6});
+  this.paper.rect(0,0, this.boardWidth, this.boardHeight, 0).attr({fill: "90-#93CCEA-#FADA5E:10-#FAFA8E", 'fill-opacity': 0.6});
 
   this.paper.customAttributes.data   = function (data)   { return data;   }
   this.paper.customAttributes.sudoku = function (sudoku) { return sudoku; }
   this.paper.customAttributes.board  = function (board) { return board; }
+
+  this.statistics = this.paper.rect(this.boardWidth - 200, 20, 180, this.boardHeight - 40).
+    attr({fill: "90-#73C2FB:15-#69AFD0:25"});
+  this.paper.text(this.boardWidth - 110, 40, this.name).attr({fill: '#0F4D92', 'font-size': 20});
 }
 Board.prototype.draw = function() {
   if (!this.paper) {
@@ -45,7 +51,7 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
   // first grey out the board
   this.numberSelector.push(
     this.paper.rect(0,0, this.paper.width, this.paper.height).
-      attr({fill: '#000', 'fill-opacity': 0.2, board: this}).
+      attr({fill: '#000', 'fill-opacity': 0.3, board: this}).
       click(function(event) { this.attrs.board.removeNumberSelector(); }));
 
   this.numberSelector.push(this.paper.rect(x-5,y-5,this.sudokuSize/3+10, (this.sudokuSize/3)+10).attr({fill: '#FFF'}));
@@ -57,7 +63,7 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
       this.paper.rect(posX, posY, this.fieldSize, this.fieldSize).
         attr({fill: '#fff', 'fill-opacity': 0.0, data: $.merge(element.attrs.data, {number: i})}).
         click(function(event) {
-          Board.postNumber(this.attrs.data, i);
+          Board.postNumber(this.attrs.data, i, element.attrs.sudouku.board);
         })
     );
   }
@@ -65,12 +71,12 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
 
 
 // Send to server and ask if it's correct
-Board.postNumber = function(data, number) {
+Board.postNumber = function(data, number, board) {
   data.number = number;
   data._method = 'put';
-  $.post('/sudokus/' + data.sudoku_id + '.json', data,
+  $.post('/boards/' + board.id + 'sudokus/' + data.sudoku_id + '.json', data,
     function(data) {
-      
+      board.removeNumberSelector();
   });
 }
 
@@ -110,7 +116,7 @@ Sudoku.prototype.drawField = function(col,row) {
   return(this.board.paper.rect(this.xPos(col + 1) - this.board.fieldSize / 2,
               this.yPos(row + 1) - this.board.fieldSize / 2,
               this.board.fieldSize, this.board.fieldSize, 4).
-    attr({sudoku: this, data: {sudoku_id: this.id, col: col, row: row}, fill: '#FFF', 'fill-opacity': 0.4}));
+    attr({sudoku: this, data: {sudoku_id: this.id, col: col, row: row}, fill: '#FFF', 'fill-opacity': 0.8}));
 }
 
 Sudoku.prototype.addEmptyField = function(col, row) {
