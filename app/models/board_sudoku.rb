@@ -42,6 +42,6 @@ class BoardSudoku < Sudoku
 
   def as_json(options = {})
     attributes.reject{|k,v| %w(parts _id).include?(k)}.
-      merge({:id => self.id}).as_json(options)
+      merge({:id => self.id.to_s}).as_json(options)
   end
 end

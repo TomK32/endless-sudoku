@@ -10,4 +10,11 @@ class ApplicationController < ActionController::Base
     session[:board_id] = board.id
     @current_board = board
   end
+  
+  def create_user
+    if current_user.nil?
+      @current_user = User.create!
+      sign_in(:user, @current_user)
+    end
+  end
 end

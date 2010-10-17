@@ -20,7 +20,6 @@ class Board
         (0..2).each do |row|
           (0..2).each do |col|
             offset = sudoku.size ** 2 - sudoku.size
-            puts [last_sudoku.rows[offset + row][offset + col], sudoku.rows[row][col]].inspect
             sudoku.rows[row][col] = last_sudoku.rows[offset + row][offset + col]
           end
         end
@@ -33,7 +32,7 @@ class Board
   def as_json(options = {})
     attributes.reject{|k,v| %w(_id).include?(k)}.merge({
       :sudokus => self.sudokus.collect(&:as_json),
-      :id => self.id
+      :id => self.id.to_s
     }).as_json(options)
   end
 

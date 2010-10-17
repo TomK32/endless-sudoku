@@ -86,6 +86,10 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
   }
 }
 
+Board.prototype.addSudoku = function(lat, lng) {
+  var data = {lat: lat, lng: lng};
+  $.ajax({url: '/boards/' + this.id + '/sudokus.json', type: 'post', async: false, data: data});
+}
 
 // Send to server and ask if it's correct
 Board.postNumber = function(element, sudoku) {

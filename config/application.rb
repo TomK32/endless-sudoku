@@ -44,7 +44,7 @@ module Wieners
     config.generators do |g|
       g.orm             :mongoid
       g.test_framework :rspec, :fixture => true, :views => false
-      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+      #g.fixture_replacement :factory_girl, :dir => "spec/factories"
       g.integration_tool :rspec
     end
 

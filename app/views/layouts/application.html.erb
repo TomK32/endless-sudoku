@@ -23,5 +23,11 @@
   <%= yield %>
 
   <%= yield :footer %>
+  
+  <% if user_signed_in? %>
+    <script type="text/javascript">
+      user = new User(<%= current_user.as_json %>);
+    </script>
+  <% end %>
 </body>
 </html>
