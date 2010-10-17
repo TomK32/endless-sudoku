@@ -21,4 +21,8 @@ class SudokusController < ApplicationController
       wants.json { render :json => sudoku }
     end
   end
+  
+  def update
+    
+  end
 end

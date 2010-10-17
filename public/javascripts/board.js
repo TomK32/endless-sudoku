@@ -66,7 +66,12 @@ Board.prototype.drawNumberSelector = function(x, y, element) {
 
 // Send to server and ask if it's correct
 Board.postNumber = function(data, number) {
-  $.post('/sudokus/' + data.sudoku_id, $.merge(data, {number: number}));
+  data.number = number;
+  data._method = 'put';
+  $.post('/sudokus/' + data.sudoku_id + '.json', data,
+    function(data) {
+      
+  });
 }
 
 Sudoku = function(data) {
