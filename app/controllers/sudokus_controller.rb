@@ -6,12 +6,8 @@ class SudokusController < ApplicationController
   respond_to :json
   
   def update
-    if resource.correct?(params[:row], params[:col], params[:number])
-      resource.rows[params[:row]][params[:col]] = params[:number]
-      raise resource.rows.join("\n")
-      if resource.save
-        render :json => resource and return
-      end
+    if resource.update_if_correct(params[:row].to_i, params[:col].to_i, params[:number])
+      render :json => resource and return
     else
       render :json => {:error => 'Ew, that was wrong my dear friend.'} and return
     end

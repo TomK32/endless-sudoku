@@ -21,9 +21,19 @@ class BoardSudoku < Sudoku
   def shoot_it!
     self.rows = parent.rows
     start_holes.times do |i|
-      rows[rand(size**2) ][rand(size**2)] = ''
+      rows[rand(size**2)][rand(size**2)] = ' '
     end
     self.solved = false
+  end
+
+  def update_if_correct(row, col, number)
+    if self.correct?(row, col, number)
+      self.rows[row][col] = number.to_s
+      self.collection.update({:_id => self.id}, {:"$set" => {"rows.#{row}" => self.rows[row]}}, {:upsert => true}
+      ).inspect
+      return self.save
+    end
+    return false
   end
 
   def correct?(row, col, number)
@@ -31,7 +41,7 @@ class BoardSudoku < Sudoku
   end
 
   def as_json(options = {})
-    attributes.reject{|k,v| %w(parts rows _id).include?(k)}.
-      merge({:rows => self.rows_as_strings, :id => self.id}).as_json(options)
+    attributes.reject{|k,v| %w(parts _id).include?(k)}.
+      merge({:id => self.id}).as_json(options)
   end
 end

@@ -99,10 +99,7 @@ Board.postNumber = function(element, sudoku) {
   } else {
     sudoku.updateData(data);
     sudoku.draw();
-    sudoku.board.remove
-
-
-    erSelector();
+    sudoku.board.removeNumberSelector();
   }
 }
 
@@ -138,9 +135,6 @@ Sudoku.prototype.yPos = function(column) {
   return(( (column / this.rows.length) + (6.6/9*this.lat)) * this.board.sudokuSize + this.offSet(column))
 }
 
-Sudoku.prototype.field = function() {
-
-}
 Sudoku.prototype.drawField = function(col,row) {
   return(this.board.paper.rect(this.xPos(col + 1) - this.board.fieldSize / 2,
               this.yPos(row + 1) - this.board.fieldSize / 2,
