@@ -9,6 +9,9 @@ class SudokusController < ApplicationController
 
   def update
     if resource.update_if_correct(params[:row].to_i, params[:col].to_i, params[:number])
+      current_user.score ||= 0
+      current_user.score += 1
+      current_user.save
       render :json => resource and return
     else
       render :json => {:error => 'Ew, that was wrong my dear friend.'} and return

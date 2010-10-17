@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    update!{ redirect_to user_path(current_user.id, :format => :json) }
+    update!{ redirect_to user_path(current_user.id, :format => :json) and return }
   end
 
   protected

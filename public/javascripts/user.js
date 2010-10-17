@@ -25,7 +25,7 @@ User.prototype.draw = function() {
   if(this.name == null) {
     this.name = prompt("What's your name?");
     var email = prompt("And your email address?");
-    $.post('/users/' + this.id + '.json', {format: 'json', user: {name: this.name, email: email, '_method': 'put'}});
+    $.post('/users/' + this.id + '.json', {format: 'json', user: {name: this.name, email: email}, '_method': 'put'});
   }
   this.nameField = this.paper.text(this.boxWidth / 2, 15, this.name).attr({'font-size': 15});
   this.scoreField = this.paper.text(this.boxWidth / 2, 40, "score: " + this.score).attr({'font-size': 15});;

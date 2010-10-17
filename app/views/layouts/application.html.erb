@@ -3,7 +3,7 @@
 <head>
   <title>Endless Sudoku</title>
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag %w(jquery raphael board application) %>
+  <%= javascript_include_tag %w(jquery raphael board user application) %>
   <%= csrf_meta_tag %>
 </head>
 <body>
@@ -26,7 +26,7 @@
   
   <% if user_signed_in? %>
     <script type="text/javascript">
-      user = new User(<%= current_user.as_json %>);
+      user = new User(<%= current_user.as_json.to_json.html_safe %>);
     </script>
   <% end %>
 </body>

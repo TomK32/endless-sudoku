@@ -44,7 +44,7 @@ Board.prototype.createPaper = function() {
   this.paper.customAttributes.sudoku = function (sudoku) { return sudoku; }
   this.paper.customAttributes.board  = function (board) { return board; }
 
-  this.statistics = this.paper.rect(this.boardWidth - 200, 20, 180, this.boardHeight - 40).
+  this.statistics = this.paper.rect(this.boardWidth - 200, 20, 180, 200).
     attr({fill: "90-#73C2FB:15-#69AFD0:25"});
   this.paper.text(this.boardWidth - 110, 40, this.name).attr({fill: '#0F4D92', 'font-size': 20});
 }

@@ -1,7 +1,7 @@
 Wieners::Application.routes.draw do
 
   devise_for :users
-  resources :users, :only => [:show, :update]
+  resources :users
   resources :boards do
     resources :sudokus
   end
