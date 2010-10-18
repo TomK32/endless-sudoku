@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   protected
   def collection
-    end_of_association_chain.where(:name.exists => true, :score.exists => true).
+    end_of_association_chain.where(:name.exists => true, :score.gt => 0).
       order_by([:score, :desc]).
       paginate(:per_page => 20, :page => params[:page])
   end
