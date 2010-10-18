@@ -1,7 +1,17 @@
 = form_for resource||Board.new, :url => boards_path do |form|
+  %h2 Board info
   %p
-    = form.label :name
+    = form.label :name, 'Name for the board'
     = form.text_field :name
 
+  - if !user_signed_in?
+    = fields_for :user, User.new do |user_fields|
+      %h2 User info
+      %p
+        = user_fields.label :name
+        = user_fields.text_field :name
+      %p
+        = user_fields.label :email
+        = user_fields.text_field :email
   %p.submit
     = form.submit 'Give me my board', :name => nil

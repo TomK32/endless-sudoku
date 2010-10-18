@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   
   def create_user
     if current_user.nil?
-      @current_user = User.create!
-      sign_in(:user, @current_user)
+      @current_user = User.create((params[:user]||{}).reject{|k,v| v.blank?})
+      sign_in(:user, @current_user) if @current_user.valid?
     end
   end
 end

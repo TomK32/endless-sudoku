@@ -11,6 +11,13 @@ a {
   text-decoration: none;
   text-shadow: 2px 2px #A3CCFA;
 }
+
+label {
+  display: block;
+}
+p.submit {
+  margin: 10px 0;
+}
 #header {
   height: 40px;
 }

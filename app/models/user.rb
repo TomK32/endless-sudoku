@@ -10,6 +10,7 @@ class User
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable
 
+  validates_uniqueness_of :email, :allow_nil => true
   def as_json(options = {})
     {:id => self.id.to_s, :name => self.name, :score => self.score}.as_json(options)
   end
