@@ -2,9 +2,17 @@
 
 == App
 * for corners, update both sudokus
+* refactor appending of sudokus to Board
+* count holes on sudoku
+* stores player_ids in Board
+* count score per player/board
 
 == Frontend
 * extend board by another sudoku (add a rect with hover question)
-* show users stats
 * show user signup form (just email address and name)
 * Drag the board
+* Nice design
+* user signup form
+
+== Gameplay
+* score for completing a sudoku
