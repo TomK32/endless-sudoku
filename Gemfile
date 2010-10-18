@@ -17,6 +17,7 @@ gem 'exception_notification', :git => 'git://github.com/rails/exception_notifica
 
 gem 'sudoku_solver'
 gem 'devise'
+gem 'haml'
 
 group :development do
   gem "autotest"

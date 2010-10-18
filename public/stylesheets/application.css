@@ -32,6 +32,11 @@ a {
   
 }
 
+#content {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 600px;
+}
 #error {
   display: none;
   border: 2px solid red;

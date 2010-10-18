@@ -1,0 +1,32 @@
+!!! 5
+%html
+  %head
+    %title Endless Sudoku
+    = stylesheet_link_tag :all
+    = javascript_include_tag 'jquery'
+    = csrf_meta_tag
+    = javascript_tag('')
+  %body
+    #container
+      #header
+        %h1{:style =>"display:inline;"}
+          %s{:style => "color: #4F8DC2"}Endless
+          = link_to 'Sudoko', '/'
+
+        %small= link_to 'New board', new_board_path
+        %p#about
+          A game created for
+          <a href="http://railsrumble.com/">Railsrumble 2010</a>
+          and brought to you by
+          <a href="http://ananasblau.com">Thomas R. Koll</a>
+          with a little help from
+          <a href="http://twitter.com/cypher">Markus Prinz</a><br />
+          Heavenly inspried by <a href="http:/scrabb.ly">scrabb.ly</a>.
+      #error
+      #content= yield
+
+      = yield :footer
+
+      = javascript_include_tag %w(raphael board user game application)
+      - if user_signed_in?
+        = javascript_tag('user = new User(%s);' % current_user.as_json.to_json.html_safe)
