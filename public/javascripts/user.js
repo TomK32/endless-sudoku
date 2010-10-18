@@ -8,8 +8,8 @@ User = function(data) {
 }
 
 User.prototype.updateData = function() {
-  request = $.ajax({url: '/users/' + this.id, async: false});
-  this.setData($.parseJSON(request.data));
+  request = $.ajax({url: '/users/' + this.id + '.json', async: false});
+  this.setData($.parseJSON(request.responseText));
 }
 User.prototype.setData = function(data) {
   this.id = data.id
@@ -22,7 +22,7 @@ User.prototype.draw = function() {
   if(this.paper) this.paper.remove();
   this.paper = Raphael(10, window.innerHeight - 70, this.boxWidth, this.boxHeight);
   this.paper.rect(0,0, this.boxWidth, this.boxHeight, 0).attr({fill: "#5EDAFA", 'fill-opacity': 0.6});
-  if(this.name == null) {
+  if(this.name == null || this.name == "null") {
     this.name = prompt("What's your name?");
     var email = prompt("And your email address?");
     $.post('/users/' + this.id + '.json', {format: 'json', user: {name: this.name, email: email}, '_method': 'put'});

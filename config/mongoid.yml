@@ -18,3 +18,5 @@ production:
   port: 27067
   username: wieners
   password: MetaLab2010
+
+# mongo flame.mongohq.com:27067/wieners -u wieners -p MetaLab2010
