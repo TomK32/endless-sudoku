@@ -7,7 +7,7 @@
     = csrf_meta_tag
     = javascript_tag('')
   %body
-    #container
+    #container{:class => ([controller_name, action_name] == ['boards', 'show']) ? 'wide' : ''}
       #header
         %h1{:style =>"display:inline;"}
           %s{:style => "color: #4F8DC2"}Endless

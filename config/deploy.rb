@@ -6,8 +6,8 @@ set :scm, :git
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
 
-role :web, "wieners.r10.railsrumble.com"
-role :app, "wieners.r10.railsrumble.com"
+role :web, "ananasblau.com"
+role :app, "ananasblau.com"
 
 namespace :deploy do
   task :start do ; end

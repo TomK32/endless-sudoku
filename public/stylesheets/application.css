@@ -37,6 +37,11 @@ a {
   margin: 0 auto;
   max-width: 600px;
 }
+.wide #content {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
 #error {
   display: none;
   border: 2px solid red;
