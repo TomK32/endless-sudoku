@@ -13,7 +13,7 @@
           %s{:style => "color: #4F8DC2"}Endless
           = link_to 'Sudoko', '/'
 
-        %small
+        %span#navigation
           = link_to 'New board', new_board_path
           •
           = link_to 'All boards', boards_path
@@ -28,6 +28,7 @@
             = link_to 'Log in', new_user_session_path
           •
           = link_to 'About', '/pages/about'
+
         %p#about
           A game created for
           <a href="http://railsrumble.com/">Railsrumble 2010</a>.
@@ -41,3 +42,4 @@
       = javascript_include_tag %w(raphael board user game application)
       - if user_signed_in?
         = javascript_tag('user = new User(%s);' % current_user.as_json.to_json.html_safe)
+      = render 'layouts/flattr'
