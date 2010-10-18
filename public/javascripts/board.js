@@ -96,8 +96,7 @@ Board.postNumber = function(element, sudoku) {
   data = element.attrs.data;
   data._method = 'put';
   var url = '/boards/' + sudoku.board.id + '/sudokus/' + sudoku.id + '.json';
-  var request = $.ajax({type: 'post', url: url, async: false, data: data});
-  data = $.parseJSON(request.responseText);
+  data = Game.sendRequest({type: 'post', url: url, async: false, data: data}, 'sudoku');
   if(data.error) {
     element.attr({fill: '#FF0000', 'fill-opacity' : 0.5})
   } else {

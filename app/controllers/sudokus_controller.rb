@@ -12,7 +12,7 @@ class SudokusController < ApplicationController
       current_user.score ||= 0
       current_user.score += 1
       current_user.save
-      render :json => resource and return
+      render :json => {:sudoku => resource, :user => {:score => current_user.score}} and return
     else
       render :json => {:error => 'Ew, that was wrong my dear friend.'} and return
     end
