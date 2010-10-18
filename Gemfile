@@ -18,6 +18,7 @@ gem 'exception_notification', :git => 'git://github.com/rails/exception_notifica
 gem 'sudoku_solver'
 gem 'devise'
 gem 'haml'
+gem 'will_paginate'
 
 group :development do
   gem "autotest"

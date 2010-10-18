@@ -13,14 +13,18 @@
           %s{:style => "color: #4F8DC2"}Endless
           = link_to 'Sudoko', '/'
 
-        %small= link_to 'New board', new_board_path
+        %small
+          = link_to 'New board', new_board_path
+          •
+          = link_to 'All boards', boards_path
+          •
+          = link_to 'Highscores', users_path
+          •
+          = link_to 'About', '/pages/about'
         %p#about
           A game created for
-          <a href="http://railsrumble.com/">Railsrumble 2010</a>
-          and brought to you by
-          <a href="http://ananasblau.com">Thomas R. Koll</a>
-          with a little help from
-          <a href="http://twitter.com/cypher">Markus Prinz</a><br />
+          <a href="http://railsrumble.com/">Railsrumble 2010</a>.
+          Find out more <a href="/pages/about">about</a> this game.<br />
           Heavenly inspried by <a href="http:/scrabb.ly">scrabb.ly</a>.
       #error
       #content= yield

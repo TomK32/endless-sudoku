@@ -1,0 +1,8 @@
+%p= "Of %i user %i have scored!" % [User.count, collection.total_entries]
+%ul
+  - collection.each do |user|
+    %li
+      = "%s points:" % user.score
+      %strong= user.name
+
+= will_paginate collection

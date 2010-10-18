@@ -10,9 +10,16 @@ class Board
 
   after_create :assign_sudokus
 
+  # row/col describe which corner to append to
+  # -1/-1 is lower right, 0/-1 is upper right
+  def append_sudoku(lat, lng, row = -1, col = -1)
+
+  end
+
   def assign_sudokus
     last_sudoku = nil
     self.sudokus = 2.times.collect do |i|
+      self.append_sudoku(i,i)
       parts = []
       parts = [[last_sudoku.parent.parts[-1][-1], nil, nil], [], []] if i > 0
       sudoku = self.sudokus.build_random(:board_id => self.id, :lng => i, :lat => i, :parts => parts)

@@ -201,3 +201,4 @@ DEPENDENCIES
   sudoku_solver
   thin
   webrat
+  will_paginate

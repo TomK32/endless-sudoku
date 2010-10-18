@@ -1,0 +1,4 @@
+%div[resource]
+
+  - content_for :footer do
+    = javascript_ready_tag("b = new Board({id: '%1$s'}, 'board_%1$s'); b.loadData();" % resource.id)

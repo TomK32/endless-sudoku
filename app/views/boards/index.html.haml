@@ -1,0 +1,5 @@
+%ul#boards
+  - collection.each do |board|
+    %li= link_to board.name, board
+
+= will_paginate collection

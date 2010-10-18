@@ -4,4 +4,7 @@ class BoardsController < ApplicationController
   respond_to :json, :html
 
   protected
+  def collection
+    end_of_association_chain.paginate(:page => params[:page], :per_page => 20)
+  end
 end
