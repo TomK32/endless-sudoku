@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   inherit_resources
   actions :all
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => :index
   respond_to :json, :html
 
   def edit
