@@ -4,6 +4,7 @@ Board = function(data, selector) {
   this.selector = selector;
   this.sudokus = [];
   this.paper = null;
+  this.defaultAttrs = {scale: 1, board: this};
   this.sudokuSize = 200;
   this.fields = 9;
   this.fieldSize = this.sudokuSize / this.fields;
@@ -44,9 +45,10 @@ Board.prototype.createPaper = function() {
   this.paper.customAttributes.sudoku = function (sudoku) { return sudoku; }
   this.paper.customAttributes.board  = function (board) { return board; }
 
-  this.statistics = this.paper.rect(this.boardWidth - 200, 20, 180, 200).
+  var y = 60;
+  this.statistics = this.paper.rect(this.boardWidth - 200, y, 180, 200).
     attr({fill: "90-#73C2FB:15-#69AFD0:25"});
-  this.paper.text(this.boardWidth - 110, 40, this.name).attr({fill: '#0F4D92', 'font-size': 20});
+  this.paper.text(this.boardWidth - 110, y+20, this.name).attr({fill: '#0F4D92', 'font-size': 20});
 }
 Board.prototype.draw = function() {
   if (!this.paper) {
@@ -55,7 +57,36 @@ Board.prototype.draw = function() {
   $(this.sudokus).each(function(i, sudoku) {
     sudoku.draw();
   });
+  this.drawControls();
 }
+Board.prototype.attrs = function(other) {
+  return $.extend(true, other, this.defaultAttrs);
+}
+Board.prototype.scale = function(value) {
+  if(this.defaultAttrs.scale)
+    return value * this.defaultAttrs.scale;
+  return value;
+}
+Board.prototype.scaleBoard = function(delta) {
+  this.defaultAttrs.scale += delta;
+  this.sudokus.map(function(s){ s.draw(); });
+}
+Board.prototype.drawControls = function() {
+  var x = this.boardWidth - 50;
+  var y = 20;
+  var font = {'font-size': 20};
+  this.paper.rect(x-150, y - 5, 180, 30).attr({fill: '#FFFFFF'});
+  this.paper.text(x + 10, y + 10, '+').attr(font);
+  this.paper.rect(x, y, 20, 20).attr(this.attrs({fill: '#FFFFFF', 'fill-opacity': 0.0})).
+    click(function() { this.attrs.board.scaleBoard(0.1) });
+  x -= 40;
+  this.paper.text(x + 10, y + 10, '-').attr(font);
+  this.paper.rect(x, y, 20, 20).attr(this.attrs({fill: '#FFFFFF', 'fill-opacity': 0.0})).
+    click(function() { this.attrs.board.scaleBoard(-0.1) });
+  x -= 70;
+  this.paper.text(x+10, y+10, 'Scale').attr(font);
+}
+
 Board.prototype.removeNumberSelector = function() {
   this.numberSelector.map(function(e) { e.remove() });
 }
@@ -129,19 +160,19 @@ Sudoku.prototype.get = function() {
 }
 
 Sudoku.prototype.offSet = function(pos) {
-  return ( Math.floor((pos+2) / 3 - 1) * ( 0.3 / this.rows.length) * this.board.sudokuSize);
+  return ( this.board.scale(Math.floor((pos+2) / 3 - 1) * ( 0.3 / this.rows.length) * this.board.sudokuSize));
 }
 Sudoku.prototype.xPos = function(row) {
-  return( ( (row / this.rows.length) + (6.6/9*this.lng)) * this.board.sudokuSize + this.offSet(row))
+  return( this.board.scale(( (row / this.rows.length) + (6.6/9*this.lng)) * this.board.sudokuSize + this.offSet(row)));
 }
 Sudoku.prototype.yPos = function(column) {
-  return(( (column / this.rows.length) + (6.6/9*this.lat)) * this.board.sudokuSize + this.offSet(column))
+  return(this.board.scale( (column / this.rows.length) + (6.6/9*this.lat)) * this.board.sudokuSize + this.offSet(column));
 }
 
 Sudoku.prototype.drawField = function(col,row) {
   return(this.board.paper.rect(this.xPos(col + 1) - this.board.fieldSize / 2,
               this.yPos(row + 1) - this.board.fieldSize / 2,
-              this.board.fieldSize, this.board.fieldSize, 4).
+              this.board.scale(this.board.fieldSize), this.board.scale(this.board.fieldSize, 4)).
     attr({sudoku: this, data: {sudoku_id: this.id, col: col, row: row}, fill: '#FFF', 'fill-opacity': 0.8}));
 }
 
@@ -152,7 +183,7 @@ Sudoku.prototype.addEmptyField = function(col, row) {
 }
 Sudoku.prototype.addSolvedField = function(col, row, number) {
   this.figures.push(this.drawField(col, row).attr({'fill-opacity': 0.1}));
-  this.figures.push(this.board.paper.text(this.xPos(col + 1), this.yPos(row + 1), number));
+  this.figures.push(this.board.paper.text(this.xPos(col + 1), this.yPos(row+1), number).attr({'font-size': this.board.scale(12)}));
 }
 Sudoku.prototype.draw = function() {
   $(this.figures).map(function(i, e){ e.remove() });
