@@ -8,8 +8,8 @@ Board = function(data, selector) {
   this.sudokuSize = 200;
   this.fields = 9;
   this.fieldSize = this.sudokuSize / this.fields;
-  this.boardWidth = window.innerWidth;
-  this.boardHeight = window.innerHeight - $('#' + this.selector).offset().top;
+  this.boardWidth = $('#' + this.selector).width();
+  this.boardHeight = $(window).height() - $('#' + this.selector).offset().top;
   this.numberSelector = [];
   this.statistics = [];
   $('#' + this.selector).data({board: this});
