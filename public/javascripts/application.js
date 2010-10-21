@@ -8,7 +8,7 @@ $(document).ready(function(){
   $(document).ajaxComplete(function(event, XMLHttpRequest, ajaxOptions) {
     if(ajaxOptions.type == "post") {
       // no user but normally we should have one after the POST
-      if(type(user) == 'undefined') {
+      if(typeof(user) == 'undefined') {
         user = new User({id: 0});
         user.updateData();
       }
