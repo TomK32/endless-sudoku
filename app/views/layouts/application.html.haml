@@ -5,7 +5,6 @@
     = stylesheet_link_tag "application"
     = javascript_include_tag 'jquery'
     = csrf_meta_tag
-    = javascript_tag('')
   %body
     #container{:class => ([controller_name, action_name] == ['boards', 'show']) ? 'wide' : ''}
       #header
@@ -34,7 +33,7 @@
 
       = yield :footer
 
-      = javascript_include_tag %w(raphael board user game application)
+      = javascript_include_tag %w(raphael board sudoku user game application)
       - if user_signed_in?
         = javascript_tag('user = new User(%s);' % current_user.as_json.to_json.html_safe)
       = render 'layouts/flattr'
