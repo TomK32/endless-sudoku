@@ -6,12 +6,16 @@ class BoardsController < ApplicationController
 
   def show
     current_board = resource
+    if resource.nil?
+      flash[:error] = "No such board found"
+      redirect_to new_resource_path and return
+    end
     show!
   end
 
   def create
-    current_board = resource
     create!
+    current_board = resource
   end
 
   protected
