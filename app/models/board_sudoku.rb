@@ -1,12 +1,15 @@
 class BoardSudoku < Sudoku
   field :solved, :type => Boolean
-  field :start_holes, :type => Integer, :default => 30
+  field :start_holes, :type => Integer, :default => 40
+  field :lat, :type => Integer
+  field :lng, :type => Integer
 
   referenced_in :board
   referenced_in :parent, :class_name => 'Sudoku'
 
   validates_presence_of :board_id
   validates_presence_of :parent_id
+  validates_presence_of :lat, :lng
 
   index :board_id
   index :_type

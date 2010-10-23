@@ -18,19 +18,19 @@ describe BoardSudoku do
   end
 
   it "should create sparse rows" do
-    board_sudoku = BoardSudoku.create(:board => @board, :solved_sudoku => @solved_sudoku)
-    sudoku.should be_valid
-    sudoku.should_not be_solved
-    sudoku.rows.collect{|r| r.match('0') }.compact.should_not be_empty
-    sudoku.parts.collect{|r| r.match('0') }.compact.should_not be_empty
+    board_sudoku = BoardSudoku.create(:board => @board, :solved_sudoku => @solved_sudoku, :lat => 0, :lng => 0)
+    board_sudoku.should be_valid
+    board_sudoku.should_not be_solved
+    board_sudoku.rows.collect{|r| r.match('0') }.compact.should_not be_empty
+    board_sudoku.parts.collect{|r| r.match('0') }.compact.should_not be_empty
   end
 
   it "#generate" do
-    sudoku = board.sudokus.generate
-    sudoku.should be_valid
-    sudoku.should_not be_solved
-    sudoku.parent.should_not be_nil
-    sudoku.parent.should be_solved
+    board_sudoku = @board.sudokus.generate
+    board_sudoku.should be_valid
+    board_sudoku.should_not be_solved
+    board_sudoku.parent.should_not be_nil
+    board_sudoku.parent.should be_solved
   end
 end
 
